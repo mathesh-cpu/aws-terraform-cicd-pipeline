@@ -32,8 +32,12 @@ resource "aws_launch_template" "enterprise_app" {
 # 3. The Server Factory (Auto Scaling Group)
 resource "aws_autoscaling_group" "enterprise_asg" {
   name                = "enterprise-autoscaling-group"
-  vpc_zone_identifier = [aws_subnet.public_subnet_b.id]
-  
+  vpc_zone_identifier = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
+
+  target_group_arns         = [aws_lb_target_group.app_tg.arn]
+  health_check_type         = "ELB"
+  health_check_grace_period = 300
+
   desired_capacity    = 2
   max_size            = 4
   min_size            = 1

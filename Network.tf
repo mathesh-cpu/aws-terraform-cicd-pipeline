@@ -18,7 +18,18 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# 3. Create a Public Subnet (Where your Load Balancer will live)
+# 3. Create Two Public Subnets in Different AZs (Required for the ALB)
+resource "aws_subnet" "public_subnet_a" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "${var.aws_region}a"
+
+  tags = {
+    Name = "enterprise-public-subnet-a"
+  }
+}
+
 resource "aws_subnet" "public_subnet_b" {
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = "10.0.2.0/24"
@@ -26,7 +37,7 @@ resource "aws_subnet" "public_subnet_b" {
   availability_zone       = "${var.aws_region}b"
 
   tags = {
-    Name = "enterprise-public-subnet-a"
+    Name = "enterprise-public-subnet-b"
   }
 }
 
@@ -40,7 +51,12 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
-# 5. Link the Subnet to the Route Table
+# 5. Link Both Subnets to the Route Table
+resource "aws_route_table_association" "public_assoc_a" {
+  subnet_id      = aws_subnet.public_subnet_a.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
 resource "aws_route_table_association" "public_assoc_b" {
   subnet_id      = aws_subnet.public_subnet_b.id
   route_table_id = aws_route_table.public_rt.id
