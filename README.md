@@ -1,6 +1,5 @@
-# AWS Enterprise Pipeline — Multi-AZ High-Availability Infrastructure with Terraform & GitHub Actions
-
-An automated, production-style AWS web infrastructure provisioned entirely through **Terraform** and managed end-to-end via **GitHub Actions CI/CD**. The architecture deploys containerized Nginx workloads across multiple Availability Zones behind an Application Load Balancer with least-privilege network isolation, zero-downtime rolling updates, and one-click cost-control teardown.
+# AWS Load-Balanced Docker Deployment using Terraform & CI/CD
+A hands-on, automated AWS web infrastructure provisioned entirely through **Terraform** and managed end-to-end via **GitHub Actions CI/CD**. The architecture deploys containerized Nginx workloads across multiple Availability Zones behind an Application Load Balancer with least-privilege network isolation, zero-downtime rolling updates, and one-click cost-control teardown.
 
 ---
 
